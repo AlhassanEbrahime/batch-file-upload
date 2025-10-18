@@ -21,20 +21,17 @@ public class EmployeeService {
     public void savFileData(InputStream file) throws IOException {
         List<Employee> employeeList = new LinkedList<>();
         Workbook workbook = WorkbookFactory.create(file);
-            Sheet sheet = workbook.getSheetAt(0);
-
-            sheet.forEach(row -> {
-                Employee employee = new Employee();
-                if (row.getRowNum() != 0) {
-                    employee.setEmpName(row.getCell(0).getStringCellValue());
-                    employee.setEmpSalary(row.getCell(1).getNumericCellValue());
-                    employeeList.add(employee);
-                }
-            });
-
+        Sheet sheet = workbook.getSheetAt(0);
+        sheet.forEach(row -> {
+            Employee employee = new Employee();
+            if (row.getRowNum() != 0) {
+                employee.setEmpName(row.getCell(0).getStringCellValue());
+                employee.setEmpSalary(row.getCell(1).getNumericCellValue());
+                employeeList.add(employee);
+            }
+        });
         repo.saveAll(employeeList);
     }
-
 
     public List<Employee> findAll() {
         return repo.findAll();
